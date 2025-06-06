@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'], // Consider adding a specific Persian font here later
-        headline: ['Playfair Display', 'serif'], // Consider adding a specific Persian font here later
+        body: ['Vazirmatn', 'sans-serif'],
+        headline: ['Vazirmatn', 'serif'], // Using Vazirmatn for headline as well for consistency
         code: ['monospace'],
       },
       colors: {

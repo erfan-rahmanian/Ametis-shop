@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'PT Sans', sans-serif; /* Default body font */
-}
-
 @layer base {
   :root {
     --background: 240 67% 94%; /* Light Lavender #E6E6FA */
