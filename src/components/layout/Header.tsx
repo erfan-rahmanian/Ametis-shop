@@ -2,8 +2,9 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User } from 'lucide-react';
+import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/hooks/useAuth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,26 +17,54 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Added for potential redirect on logout
+import { useState, type FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
-  const { itemCount, clearCart } = useCart(); // Added clearCart
-  const { user, logout: authLogout, isAuthenticated, isLoading: authIsLoading } = useAuth(); // Renamed logout to authLogout
+  const { itemCount, clearCart } = useCart();
+  const { user, logout: authLogout, isAuthenticated, isLoading: authIsLoading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const router = useRouter(); // Added for potential redirect
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   const handleLogout = () => {
     authLogout();
     clearCart();
-    // router.push('/'); // Optional: redirect to home page after logout
+    router.push('/'); // Redirect to home on logout
+  };
+
+  const handleSearchSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery(''); // Clear search input after submission
+      if (mobileMenuOpen) {
+        setMobileMenuOpen(false); // Close mobile menu on search
+      }
+    }
   };
 
   const navLinks = [
     { href: '/', label: 'خانه', icon: <Package className="h-4 w-4" /> },
     { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <LayoutDashboard className="h-4 w-4" /> },
-    { href: '/cart', label: 'سبد خرید', icon: <ShoppingCart className="h-4 w-4" /> }
+    // Cart link is handled separately by an icon button
   ];
+
+  const SearchForm = ({ inSheet = false }: { inSheet?: boolean }) => (
+    <form onSubmit={handleSearchSubmit} className={`flex items-center gap-2 ${inSheet ? 'w-full px-3 py-2' : 'ms-4'}`}>
+      <Input
+        type="search"
+        placeholder="جستجوی محصولات..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className={`h-9 ${inSheet ? 'flex-grow bg-background/70' : 'w-48 md:w-64 bg-background/70'}`}
+        aria-label="جستجوی محصولات"
+      />
+      <Button type="submit" variant="ghost" size="icon" className="h-9 w-9 shrink-0" aria-label="دکمه جستجو">
+        <Search className="h-5 w-5" />
+      </Button>
+    </form>
+  );
 
   const UserActions = () => {
     if (authIsLoading) {
@@ -52,7 +81,7 @@ export default function Header() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-52" side="right" align="start" forceMount>
+          <DropdownMenuContent className="w-52" side="right" align="start" sideOffset={5} alignOffset={-16}>
             <DropdownMenuLabel className="font-normal px-2 py-2">
               <div className="flex flex-col space-y-1">
                 <p className="text-xs text-muted-foreground">وارد شده با نام:</p>
@@ -62,13 +91,6 @@ export default function Header() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuItem asChild>
-              <Link href="/profile">
-                <User className="ms-2 h-4 w-4" />
-                <span>پروفایل من</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator /> */}
             <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
               <LogOut className="ms-2 h-4 w-4" />
               <span>خروج</span>
@@ -77,7 +99,6 @@ export default function Header() {
         </DropdownMenu>
       );
     }
-    // Not loading and not authenticated
     return (
       <div className="hidden md:flex items-center space-x-2 space-x-reverse">
         <Button variant="ghost" asChild>
@@ -104,7 +125,20 @@ export default function Header() {
           </Link>
         </Button>
       ))}
-      
+       {/* Cart link for sheet menu */}
+      {inSheet && (
+         <Button variant="ghost" asChild onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/cart" className="flex items-center space-x-2 space-x-reverse px-3 py-2">
+                <ShoppingCart className="h-4 w-4" />
+                <span>سبد خرید</span>
+                 {itemCount > 0 && (
+                    <span className="ms-auto flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                        {itemCount}
+                    </span>
+                    )}
+            </Link>
+        </Button>
+      )}
       {!authIsLoading && !isAuthenticated && inSheet && (
         <>
           <DropdownMenuSeparator className="my-2" />
@@ -123,7 +157,6 @@ export default function Header() {
     </>
   );
 
-
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -131,9 +164,14 @@ export default function Header() {
           فروشگاه آمیتیست
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-1 space-x-reverse">
-          <NavMenuItems />
-        </nav>
+        <div className="hidden md:flex items-center flex-grow">
+          <nav className="flex items-center space-x-1 space-x-reverse ms-6">
+            <NavMenuItems />
+          </nav>
+          <div className="flex-grow flex justify-start"> {/* Aligns search to the left of user actions */}
+             <SearchForm />
+          </div>
+        </div>
 
         <div className="flex items-center space-x-1 space-x-reverse">
           <div className="relative hidden md:block">
@@ -169,13 +207,16 @@ export default function Header() {
                   <span className="sr-only">باز/بسته کردن منو</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-4 flex flex-col bg-background">
-                <div className="mb-4">
+              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 flex flex-col bg-background">
+                <div className="p-4 border-b border-border/40">
                    <Link href="/" className="text-xl font-headline font-bold text-primary hover:text-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                     فروشگاه آمیتیست
                   </Link>
                 </div>
-                <nav className="flex flex-col space-y-1">
+                <div className="py-2 border-b border-border/40">
+                   <SearchForm inSheet={true} />
+                </div>
+                <nav className="flex flex-col space-y-1 p-4">
                   <NavMenuItems inSheet={true}/>
                 </nav>
               </SheetContent>
@@ -186,4 +227,3 @@ export default function Header() {
     </header>
   );
 }
-
