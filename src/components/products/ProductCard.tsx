@@ -13,8 +13,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <Card 
-      className="flex flex-col h-full overflow-hidden group transform transition-all duration-300 ease-in-out border-primary/50 hover:border-accent hover:ring-2 hover:ring-accent/30 hover:shadow-2xl hover:scale-[1.02] animate-slide-in-up opacity-0 bg-slate-900" 
+    <Card
+      className="flex flex-col h-full overflow-hidden group transform transition-all duration-300 ease-in-out bg-card hover:shadow-xl hover:scale-[1.02] hover:border-primary/70 animate-slide-in-up opacity-0"
       style={{ animationDelay: `${product.id * 50}ms` }}
     >
       <CardHeader className="p-0 relative">
@@ -33,15 +33,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
       <CardContent className="flex-grow p-4 space-y-2">
         <Link href={`/products/${product.id}`} aria-label={`مشاهده جزئیات ${product.title}`}>
-          <CardTitle className="text-lg font-headline leading-tight h-12 overflow-hidden text-ellipsis text-slate-50 hover:text-primary transition-colors">
+          <CardTitle className="text-lg font-headline leading-tight h-12 overflow-hidden text-ellipsis text-card-foreground group-hover:text-primary transition-colors">
             {product.title}
           </CardTitle>
         </Link>
-        <CardDescription className="text-xs text-slate-400 capitalize">{product.category}</CardDescription>
-        <p className="text-xl font-semibold text-primary">${product.price.toFixed(2)}</p>
+        <CardDescription className="text-xs text-muted-foreground capitalize">{product.category}</CardDescription>
+        <p className="text-xl font-semibold text-accent">${product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4">
-        {/* Use the AddToCartButton component directly */}
         <AddToCartButton product={product} />
       </CardFooter>
     </Card>
