@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User, Search as SearchIcon, Layers } from 'lucide-react'; // Added Layers
+import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User, Search as SearchIcon, Layers, ChevronDown } from 'lucide-react'; // Added Layers & ChevronDown
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartContext';
@@ -17,8 +17,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { useState, type FormEvent, useCallback } from 'react';
+import { useState, type FormEvent, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { fetchProducts } from '@/lib/api'; // To fetch categories
+import type { Product } from '@/lib/types';
 
 // Define SearchFormComponent outside of Header
 interface SearchFormProps {
@@ -58,6 +60,24 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+  const [categories, setCategories] = useState<string[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      setIsLoadingCategories(true);
+      try {
+        const products: Product[] = await fetchProducts();
+        const uniqueCategories = Array.from(new Set(products.map(p => p.category)));
+        setCategories(uniqueCategories);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+        setCategories([]); // Set to empty on error
+      }
+      setIsLoadingCategories(false);
+    };
+    loadCategories();
+  }, []);
 
   const handleLogout = () => {
     authLogout();
@@ -79,7 +99,7 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: 'خانه', icon: <Package className="h-4 w-4" /> },
-    { href: '/#categories', label: 'دسته‌بندی‌ها', icon: <Layers className="h-4 w-4" /> },
+    { href: '#', label: 'دسته‌بندی‌ها', icon: <Layers className="h-4 w-4" /> }, // Changed href
     { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <LayoutDashboard className="h-4 w-4" /> },
   ];
 
@@ -141,20 +161,59 @@ export default function Header() {
 
   const NavMenuItems = ({ inSheet = false }: { inSheet?: boolean }) => (
     <>
-      {navLinks.map((link) => (
-        <Button
-          variant="ghost"
-          asChild
-          key={link.href}
-          onClick={inSheet && setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
-          className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : ''}`}
-        >
-          <Link href={link.href} className="flex items-center space-x-2 space-x-reverse">
-            {link.icon}
-            <span>{link.label}</span>
-          </Link>
-        </Button>
-      ))}
+      {navLinks.map((link) => {
+        if (link.label === 'دسته‌بندی‌ها') {
+          return (
+            <DropdownMenu key={link.label}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : ''} flex items-center space-x-2 space-x-reverse`}
+                  aria-label="منوی دسته‌بندی‌ها"
+                >
+                  {link.icon}
+                  <span>{link.label}</span>
+                  <ChevronDown className="ms-auto h-4 w-4 opacity-70" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align={inSheet ? "end" : "start"} side={inSheet ? "bottom" : "bottom"}>
+                {isLoadingCategories ? (
+                  <DropdownMenuItem disabled>در حال بارگذاری...</DropdownMenuItem>
+                ) : categories.length > 0 ? (
+                  categories.map((category) => (
+                    <DropdownMenuItem 
+                      asChild 
+                      key={category} 
+                      onClick={() => { if (inSheet && setMobileMenuOpen) setMobileMenuOpen(false); }}
+                      className="capitalize cursor-pointer"
+                    >
+                      <Link href={`/category/${encodeURIComponent(category)}`}>
+                        {category}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))
+                ) : (
+                  <DropdownMenuItem disabled>دسته‌بندی‌ای یافت نشد.</DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          );
+        }
+        return (
+          <Button
+            variant="ghost"
+            asChild
+            key={link.href}
+            onClick={inSheet && setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
+            className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : ''}`}
+          >
+            <Link href={link.href} className="flex items-center space-x-2 space-x-reverse">
+              {link.icon}
+              <span>{link.label}</span>
+            </Link>
+          </Button>
+        );
+      })}
       {inSheet && (
          <Button
             variant="ghost"
@@ -306,3 +365,5 @@ export default function Header() {
     </header>
   );
 }
+
+    
