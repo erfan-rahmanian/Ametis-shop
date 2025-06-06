@@ -17,11 +17,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Added for potential redirect on logout
 
 export default function Header() {
-  const { itemCount } = useCart();
-  const { user, logout, isAuthenticated, isLoading: authIsLoading } = useAuth();
+  const { itemCount, clearCart } = useCart(); // Added clearCart
+  const { user, logout: authLogout, isAuthenticated, isLoading: authIsLoading } = useAuth(); // Renamed logout to authLogout
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter(); // Added for potential redirect
+
+  const handleLogout = () => {
+    authLogout();
+    clearCart();
+    // router.push('/'); // Optional: redirect to home page after logout
+  };
 
   const navLinks = [
     { href: '/', label: 'خانه', icon: <Package className="h-4 w-4" /> },
@@ -61,7 +69,7 @@ export default function Header() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator /> */}
-            <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
+            <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
               <LogOut className="ms-2 h-4 w-4" />
               <span>خروج</span>
             </DropdownMenuItem>
@@ -97,7 +105,6 @@ export default function Header() {
         </Button>
       ))}
       
-      {/* Mobile specific Auth buttons if in sheet and not authenticated */}
       {!authIsLoading && !isAuthenticated && inSheet && (
         <>
           <DropdownMenuSeparator className="my-2" />
@@ -129,9 +136,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center space-x-1 space-x-reverse">
-          {/* Cart icon for mobile - now part of navLinks, so it's conditional via NavMenuItems */}
-          {/* Desktop cart icon is also part of navLinks */}
-          <div className="relative hidden md:block"> {/* Cart icon specifically for desktop next to user actions if needed, or rely on nav menu */}
+          <div className="relative hidden md:block">
              <Button variant="ghost" size="icon" asChild aria-label="باز کردن سبد خرید">
                 <Link href="/cart">
                     <ShoppingCart className="h-6 w-6" />
@@ -147,7 +152,6 @@ export default function Header() {
           <UserActions />
 
           <div className="md:hidden flex items-center">
-            {/* Mobile Cart Icon - visible next to menu burger */}
             <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative" asChild> 
               <Link href="/cart">
                 <ShoppingCart className="h-6 w-6" />
@@ -158,7 +162,6 @@ export default function Header() {
                 )}
               </Link>
             </Button>
-            {/* Mobile Menu Burger */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
