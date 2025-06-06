@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User, Search } from 'lucide-react';
+import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User, Search as SearchIcon } from 'lucide-react'; // Renamed Search to SearchIcon to avoid conflict
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartContext';
@@ -17,8 +17,40 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+
+// Define SearchFormComponent outside of Header
+interface SearchFormProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  handleSearchSubmit: (event: FormEvent) => void;
+  inSheet?: boolean;
+}
+
+const SearchFormComponent: React.FC<SearchFormProps> = ({
+  searchQuery,
+  setSearchQuery,
+  handleSearchSubmit,
+  inSheet = false,
+}) => {
+  return (
+    <form onSubmit={handleSearchSubmit} className={`flex items-center gap-2 ${inSheet ? 'w-full px-3 py-2' : 'ms-4'}`}>
+      <Input
+        type="search"
+        placeholder="جستجوی محصولات..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className={`h-9 ${inSheet ? 'flex-grow bg-input' : 'w-48 md:w-64 bg-input'}`}
+        aria-label="جستجوی محصولات"
+      />
+      <Button type="submit" variant="ghost" size="icon" className="h-9 w-9 shrink-0" aria-label="دکمه جستجو">
+        <SearchIcon className="h-5 w-5" />
+      </Button>
+    </form>
+  );
+};
+
 
 export default function Header() {
   const { itemCount, clearCart } = useCart();
@@ -33,7 +65,7 @@ export default function Header() {
     router.push('/'); // Redirect to home on logout
   };
 
-  const handleSearchSubmit = (event: FormEvent) => {
+  const handleSearchSubmit = useCallback((event: FormEvent) => {
     event.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
@@ -42,29 +74,14 @@ export default function Header() {
         setMobileMenuOpen(false); // Close mobile menu on search
       }
     }
-  };
+  }, [searchQuery, router, mobileMenuOpen, setSearchQuery, setMobileMenuOpen]);
+
 
   const navLinks = [
     { href: '/', label: 'خانه', icon: <Package className="h-4 w-4" /> },
     { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <LayoutDashboard className="h-4 w-4" /> },
     // Cart link is handled separately by an icon button
   ];
-
-  const SearchForm = ({ inSheet = false }: { inSheet?: boolean }) => (
-    <form onSubmit={handleSearchSubmit} className={`flex items-center gap-2 ${inSheet ? 'w-full px-3 py-2' : 'ms-4'}`}>
-      <Input
-        type="search"
-        placeholder="جستجوی محصولات..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className={`h-9 ${inSheet ? 'flex-grow bg-input' : 'w-48 md:w-64 bg-input'}`}
-        aria-label="جستجوی محصولات"
-      />
-      <Button type="submit" variant="ghost" size="icon" className="h-9 w-9 shrink-0" aria-label="دکمه جستجو">
-        <Search className="h-5 w-5" />
-      </Button>
-    </form>
-  );
 
   const UserActions = () => {
     if (authIsLoading) {
@@ -81,7 +98,12 @@ export default function Header() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-52" side="right" align="start" sideOffset={5} alignOffset={-16}>
+          <DropdownMenuContent 
+            className="w-52" 
+            side="right" 
+            align="start" 
+            sideOffset={5}
+          >
             <DropdownMenuLabel className="font-normal px-2 py-2">
               <div className="flex flex-col space-y-1">
                 <p className="text-xs text-muted-foreground">وارد شده با نام:</p>
@@ -169,7 +191,11 @@ export default function Header() {
             <NavMenuItems />
           </nav>
           <div className="flex-grow flex justify-start"> {/* Aligns search to the left of user actions */}
-             <SearchForm />
+             <SearchFormComponent
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                handleSearchSubmit={handleSearchSubmit}
+              />
           </div>
         </div>
 
@@ -207,16 +233,21 @@ export default function Header() {
                   <span className="sr-only">باز/بسته کردن منو</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 flex flex-col bg-background">
-                <div className="p-4 border-b border-border/40">
-                   <Link href="/" className="text-xl font-headline font-bold text-primary hover:text-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 flex flex-col bg-sidebar-background"> {/* Changed bg-background to bg-sidebar-background */}
+                <div className="p-4 border-b border-sidebar-border"> {/* Changed border-border/40 to border-sidebar-border */}
+                   <Link href="/" className="text-xl font-headline font-bold text-sidebar-primary hover:text-sidebar-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}> {/* Changed text-primary to text-sidebar-primary */}
                     فروشگاه آمیتیست
                   </Link>
                 </div>
-                <div className="py-2 border-b border-border/40">
-                   <SearchForm inSheet={true} />
+                <div className="py-2 border-b border-sidebar-border"> {/* Changed border-border/40 to border-sidebar-border */}
+                   <SearchFormComponent
+                      searchQuery={searchQuery}
+                      setSearchQuery={setSearchQuery}
+                      handleSearchSubmit={handleSearchSubmit}
+                      inSheet={true}
+                    />
                 </div>
-                <nav className="flex flex-col space-y-1 p-4">
+                <nav className="flex flex-col space-y-1 p-4 text-sidebar-foreground"> {/* Added text-sidebar-foreground */}
                   <NavMenuItems inSheet={true}/>
                 </nav>
               </SheetContent>
