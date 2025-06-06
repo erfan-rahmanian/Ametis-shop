@@ -169,7 +169,7 @@ export default function Header() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : ''} flex items-center space-x-2 space-x-reverse`}
+                  className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} flex items-center space-x-2 space-x-reverse`}
                   aria-label="منوی دسته‌بندی‌ها"
                 >
                   {link.icon}
@@ -180,20 +180,21 @@ export default function Header() {
               <DropdownMenuContent
                 className={cn(
                   "w-56",
-                  inSheet ? "bg-sidebar" : "" 
+                  "bg-sidebar", // Apply sidebar background in both contexts
+                  "text-sidebar-foreground" // Apply sidebar text color
                 )}
                 align={inSheet ? "end" : "start"}
                 side={inSheet ? "bottom" : "bottom"}
               >
                 {isLoadingCategories ? (
-                  <DropdownMenuItem disabled>در حال بارگذاری...</DropdownMenuItem>
+                  <DropdownMenuItem disabled className={inSheet ? "focus:bg-sidebar-accent/80" : ""}>در حال بارگذاری...</DropdownMenuItem>
                 ) : categories.length > 0 ? (
                   categories.map((category) => (
                     <DropdownMenuItem
                       asChild
                       key={category}
                       onClick={() => { if (inSheet && setMobileMenuOpen) setMobileMenuOpen(false); }}
-                      className="capitalize cursor-pointer"
+                      className={cn("capitalize cursor-pointer", inSheet ? "focus:bg-sidebar-accent/80" : "focus:bg-accent/80")}
                     >
                       <Link href={`/category/${encodeURIComponent(category)}`}>
                         {category}
@@ -201,7 +202,7 @@ export default function Header() {
                     </DropdownMenuItem>
                   ))
                 ) : (
-                  <DropdownMenuItem disabled>دسته‌بندی‌ای یافت نشد.</DropdownMenuItem>
+                  <DropdownMenuItem disabled className={inSheet ? "focus:bg-sidebar-accent/80" : ""}>دسته‌بندی‌ای یافت نشد.</DropdownMenuItem>
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -213,7 +214,7 @@ export default function Header() {
             asChild
             key={link.href}
             onClick={inSheet && setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
-            className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : ''}`}
+            className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'}`}
           >
             <Link href={link.href} className="flex items-center space-x-2 space-x-reverse">
               {link.icon}
