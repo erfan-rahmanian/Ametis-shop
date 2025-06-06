@@ -57,7 +57,7 @@ export default function Header() {
         placeholder="جستجوی محصولات..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className={`h-9 ${inSheet ? 'flex-grow bg-background/70' : 'w-48 md:w-64 bg-background/70'}`}
+        className={`h-9 ${inSheet ? 'flex-grow bg-input' : 'w-48 md:w-64 bg-input'}`}
         aria-label="جستجوی محصولات"
       />
       <Button type="submit" variant="ghost" size="icon" className="h-9 w-9 shrink-0" aria-label="دکمه جستجو">
