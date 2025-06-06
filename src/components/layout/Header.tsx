@@ -52,7 +52,7 @@ export default function Header() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-52" align="end" alignOffset={-16} forceMount>
+          <DropdownMenuContent className="w-52" side="right" align="start" forceMount>
             <DropdownMenuLabel className="font-normal px-2 py-2">
               <div className="flex flex-col space-y-1">
                 <p className="text-xs text-muted-foreground">وارد شده با نام:</p>
