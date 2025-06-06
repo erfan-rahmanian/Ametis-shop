@@ -19,16 +19,15 @@ interface AddToCartButtonProps {
 export default function AddToCartButton({ product, className }: AddToCartButtonProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
-  const { isAuthenticated, isLoading: authLoading } = useAuth(); // Renamed isLoading to avoid conflict if any
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const router = useRouter();
 
   const handleAddToCart = () => {
-    // Wait for auth state to be resolved
     if (authLoading) {
         toast({
             title: "لطفاً صبر کنید",
             description: "در حال بررسی وضعیت ورود شما...",
-            duration: 2000, // Short duration
+            duration: 2000,
         });
         return;
     }
@@ -37,13 +36,13 @@ export default function AddToCartButton({ product, className }: AddToCartButtonP
       toast({
         title: (
           <div className="flex items-center gap-2 font-semibold">
-            <AlertTriangle className="h-5 w-5 text-destructive-foreground" />
+            <AlertTriangle className="h-5 w-5 text-accent-foreground" /> {/* Icon color updated */}
             <span>ورود لازم است</span>
           </div>
         ),
         description: "برای افزودن محصول به سبد خرید، لطفاً ابتدا وارد حساب کاربری خود شوید.",
-        variant: "destructive",
-        duration: 5000, // Slightly longer for user to react
+        className: "bg-accent border-accent text-accent-foreground shadow-lg", // Custom class for styling
+        duration: 5000,
         action: (
           <ToastAction
             altText="ورود به حساب کاربری"
@@ -62,7 +61,6 @@ export default function AddToCartButton({ product, className }: AddToCartButtonP
       title: "به سبد خرید اضافه شد!",
       description: `${product.title} به سبد خرید شما اضافه شد.`,
       className: "border-primary bg-primary text-primary-foreground",
-      // Default duration from use-toast (4 seconds) will apply
     });
   };
 
@@ -72,7 +70,7 @@ export default function AddToCartButton({ product, className }: AddToCartButtonP
       size="lg" 
       className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${className}`}
       aria-label={`افزودن ${product.title} به سبد خرید`}
-      disabled={authLoading} // Disable button while auth state is loading
+      disabled={authLoading}
     >
       {authLoading ? <span className="animate-pulse">صبر کنید...</span> : <ShoppingCart className="ms-2 h-5 w-5" />}
       {!authLoading && "افزودن به سبد خرید"}
