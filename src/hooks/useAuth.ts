@@ -52,7 +52,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   }, []);
 
-  const authContextValue = {
+  // Define the context value object separately for clarity
+  const authContextValue: AuthContextType = {
     user,
     login,
     register,
