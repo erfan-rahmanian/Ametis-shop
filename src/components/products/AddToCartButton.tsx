@@ -73,7 +73,7 @@ export default function AddToCartButton({ product, className, size = "default" }
       aria-label={`افزودن ${product.title} به سبد خرید`}
       disabled={authLoading}
     >
-      {authLoading ? <span className="animate-pulse">صبر کنید...</span> : <ShoppingCart className="ms-2 h-5 w-5" />}
+      {authLoading ? <span className="animate-pulse">صبر کنید...</span> : <ShoppingCart className="h-4 w-4" />}
       {!authLoading && "افزودن به سبد خرید"}
     </Button>
   );

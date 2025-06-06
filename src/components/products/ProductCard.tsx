@@ -14,7 +14,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card
-      className="flex flex-col h-full overflow-hidden group transform transition-all duration-300 ease-in-out bg-card hover:shadow-xl hover:scale-[1.02] hover:border-primary/70 animate-slide-in-up opacity-0"
+      className="flex flex-col h-full overflow-hidden group transform transition-all duration-300 ease-in-out bg-card hover:shadow-xl hover:scale-[1.02] hover:border-primary/70 animate-slide-in-up opacity-0 border"
       style={{ animationDelay: `${product.id * 50}ms` }}
     >
       <CardHeader className="p-0 relative">
@@ -41,9 +41,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         <p className="text-xl font-semibold text-card-foreground">${product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4 flex justify-center">
-        <AddToCartButton product={product} />
+        <AddToCartButton product={product} size="sm" />
       </CardFooter>
     </Card>
   );
 }
-
