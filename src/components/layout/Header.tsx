@@ -112,7 +112,7 @@ export default function Header() {
                 </p>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
               <LogOut className="ms-2 h-4 w-4" /> {/* ms-2 is correct for icon then text in LTR, translates to right margin for icon in RTL button content */}
               <span>خروج</span>
@@ -174,7 +174,7 @@ export default function Header() {
       )}
       {!authIsLoading && !isAuthenticated && inSheet && (
         <>
-          <DropdownMenuSeparator className="my-2 border-sidebar-border" />
+          <DropdownMenuSeparator className="my-2 bg-sidebar-border" />
           <Button 
             variant="ghost" 
             asChild 
@@ -198,7 +198,7 @@ export default function Header() {
       )}
       {!authIsLoading && isAuthenticated && user && inSheet && (
         <>
-          <DropdownMenuSeparator className="my-2 border-sidebar-border" />
+          <DropdownMenuSeparator className="my-2 bg-sidebar-border" />
           <div className="px-3 py-2 text-right">
             <p className="text-xs text-sidebar-foreground/70">وارد شده با نام:</p>
             <p className="text-sm font-medium text-sidebar-foreground truncate">{user.email}</p>
