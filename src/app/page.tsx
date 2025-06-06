@@ -3,9 +3,9 @@ import { fetchProducts } from '@/lib/api';
 import ProductList from '@/components/products/ProductList';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
-import Link from 'next/link'; 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; 
-import { Layers } from 'lucide-react'; 
+import Link from 'next/link';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Layers } from 'lucide-react';
 
 export default async function HomePage() {
   const products = await fetchProducts();
@@ -55,7 +55,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 animate-fade-in" style={{animationDelay: '0.3s'}}>
             {categories.map((category, index) => (
               <Link key={category} href={`/category/${encodeURIComponent(category)}`} className="group block" style={{ animationDelay: `${index * 100}ms` }}>
-                <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all duration-300 ease-in-out transform hover:scale-105 bg-card/80 backdrop-blur-sm">
+                <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all duration-300 ease-in-out transform hover:scale-105 bg-white/60 backdrop-blur-lg">
                   <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
                     {/* Placeholder for category image - could be added later */}
                     {/* <Image src={`https://placehold.co/100x100.png?text=${encodeURIComponent(category)}`} alt={category} width={80} height={80} className="mb-4 rounded-md" data-ai-hint="category icon" /> */}
