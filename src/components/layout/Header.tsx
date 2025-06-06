@@ -21,6 +21,7 @@ import { useState, type FormEvent, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetchProducts } from '@/lib/api'; // To fetch categories
 import type { Product } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 // Define SearchFormComponent outside of Header
 interface SearchFormProps {
@@ -176,14 +177,21 @@ export default function Header() {
                   <ChevronDown className="ms-auto h-4 w-4 opacity-70" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align={inSheet ? "end" : "start"} side={inSheet ? "bottom" : "bottom"}>
+              <DropdownMenuContent
+                className={cn(
+                  "w-56",
+                  inSheet ? "bg-sidebar" : "" 
+                )}
+                align={inSheet ? "end" : "start"}
+                side={inSheet ? "bottom" : "bottom"}
+              >
                 {isLoadingCategories ? (
                   <DropdownMenuItem disabled>در حال بارگذاری...</DropdownMenuItem>
                 ) : categories.length > 0 ? (
                   categories.map((category) => (
-                    <DropdownMenuItem 
-                      asChild 
-                      key={category} 
+                    <DropdownMenuItem
+                      asChild
+                      key={category}
                       onClick={() => { if (inSheet && setMobileMenuOpen) setMobileMenuOpen(false); }}
                       className="capitalize cursor-pointer"
                     >
@@ -365,5 +373,3 @@ export default function Header() {
     </header>
   );
 }
-
-    
