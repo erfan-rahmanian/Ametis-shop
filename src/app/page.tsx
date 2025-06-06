@@ -14,17 +14,17 @@ export default async function HomePage() {
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="md:order-2 animate-fade-in" style={{animationDelay: '0.1s'}}>
               <Image
-                src="https://placehold.co/600x400.png"
+                src="https://sdmntprpolandcentral.oaiusercontent.com/files/00000000-bce8-620a-9d77-2962f55aee30/raw?se=2025-06-06T16%3A38%3A14Z&sp=r&sv=2024-08-04&sr=b&scid=b462787c-6e8d-5d0e-bbbe-feefe5f98807&skoid=82a3371f-2f6c-4f81-8a78-2701b362559b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-06-06T06%3A11%3A16Z&ske=2025-06-07T06%3A11%3A16Z&sks=b&skv=2024-08-04&sig=f7tIvYvAnxTApxnmYl3oGQLf/LfV40XBZf6UBwdfXvQ%3D"
                 alt="Promotional image for Amethyst Store"
                 width={600}
                 height={400}
                 className="rounded-lg shadow-2xl object-cover w-full h-auto mx-auto md:mx-0"
-                data-ai-hint="modern abstract"
+                data-ai-hint="user provided"
                 priority
               />
             </div>
             <div className="md:order-1 text-center md:text-right pt-4 md:pt-0">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline font-bold text-primary mb-8 animate-fade-in leading-relaxed">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline font-bold text-primary mb-8 animate-fade-in py-4">
                 به فروشگاه آمیتیست خوش آمدید
               </h1>
               <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto md:mx-0 md:ms-auto animate-fade-in px-2" style={{animationDelay: '0.3s'}}>
