@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // Reflects initial hydration state
+  const [isLoading, setIsLoading] = useState(true); // True by default until checked
 
   useEffect(() => {
     // Load user from localStorage on initial mount
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error("خطا در بارگذاری کاربر از localStorage:", error);
       localStorage.removeItem(AUTH_KEY); // Clear potentially corrupted data
     }
-    setIsLoading(false); // Set loading to false ONLY after attempting to load from storage
+    setIsLoading(false); // Finished initial loading
   }, []);
 
   const login = useCallback((email: string, _password?: string) => {
@@ -52,8 +52,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   }, []);
 
-  // Define the context value object separately for clarity
-  const authContextValue: AuthContextType = {
+  // Define the context value object separately
+  const providerBindingValue: AuthContextType = {
     user,
     login,
     register,
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={authContextValue}>
+    <AuthContext.Provider value={providerBindingValue}>
       {children}
     </AuthContext.Provider>
   );
