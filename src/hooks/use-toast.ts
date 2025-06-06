@@ -10,7 +10,7 @@ import type {
 } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 4000 // Changed from 1000000 to 4000
+const TOAST_REMOVE_DELAY = 4000 // Ensure this is 4000ms
 
 type ToasterToast = ToastProps & {
   id: string
@@ -79,10 +79,11 @@ export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TOAST":
       // Remove previous toasts before adding a new one if limit is reached
+      // and clear their specific timeouts
       if (state.toasts.length >= TOAST_LIMIT) {
-        state.toasts.slice(TOAST_LIMIT - 1).forEach(toast => {
+         state.toasts.slice(0, state.toasts.length - TOAST_LIMIT + 1).forEach(toast => {
            if (toastTimeouts.has(toast.id)) {
-            clearTimeout(toastTimeouts.get(toast.id));
+            clearTimeout(toastTimeouts.get(toast.id)!);
             toastTimeouts.delete(toast.id);
           }
         });
@@ -103,6 +104,7 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
+      // If toastId is provided, schedule its removal. Otherwise, schedule all.
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -117,7 +119,7 @@ export const reducer = (state: State, action: Action): State => {
           t.id === toastId || toastId === undefined
             ? {
                 ...t,
-                open: false,
+                open: false, // Mark as closed, removal is handled by addToRemoveQueue
               }
             : t
         ),
@@ -125,10 +127,18 @@ export const reducer = (state: State, action: Action): State => {
     }
     case "REMOVE_TOAST":
       if (action.toastId === undefined) {
+        // Clear all timeouts if all toasts are removed
+        toastTimeouts.forEach(timeout => clearTimeout(timeout));
+        toastTimeouts.clear();
         return {
           ...state,
           toasts: [],
         }
+      }
+      // Ensure specific timeout is cleared if it exists
+      if (toastTimeouts.has(action.toastId)) {
+        clearTimeout(toastTimeouts.get(action.toastId)!);
+        toastTimeouts.delete(action.toastId);
       }
       return {
         ...state,
@@ -172,8 +182,8 @@ function toast({ ...props }: Toast) {
     },
   })
   
-  // Automatically dismiss after delay
-  if (props.duration !== Infinity) { // Allow infinite duration if specified
+  // Automatically schedule removal unless duration is Infinity
+  if (props.duration !== Infinity) { 
      addToRemoveQueue(id);
   }
 

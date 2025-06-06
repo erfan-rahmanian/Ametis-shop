@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard } from 'lucide-react'; // Added LayoutDashboard for potential profile link
+import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/hooks/useAuth';
@@ -20,16 +20,17 @@ import { useState } from 'react';
 
 export default function Header() {
   const { itemCount } = useCart();
-  const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const { user, logout, isAuthenticated, isLoading: authIsLoading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
     { href: '/', label: 'خانه', icon: <Package className="h-4 w-4" /> },
-    { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <LayoutDashboard className="h-4 w-4" /> }, // Changed icon for variety
+    { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <LayoutDashboard className="h-4 w-4" /> },
+    { href: '/cart', label: 'سبد خرید', icon: <ShoppingCart className="h-4 w-4" /> }
   ];
 
   const UserActions = () => {
-    if (isLoading) {
+    if (authIsLoading) {
       return <div className="h-10 w-20 animate-pulse bg-muted rounded-md" />;
     }
     if (isAuthenticated && user) {
@@ -53,16 +54,14 @@ export default function Header() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/* Potential future profile link:
-            <DropdownMenuItem asChild>
+            {/* <DropdownMenuItem asChild>
               <Link href="/profile">
                 <User className="ms-2 h-4 w-4" />
                 <span>پروفایل من</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            */}
-            <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
+            <DropdownMenuSeparator /> */}
+            <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
               <LogOut className="ms-2 h-4 w-4" />
               <span>خروج</span>
             </DropdownMenuItem>
@@ -70,6 +69,7 @@ export default function Header() {
         </DropdownMenu>
       );
     }
+    // Not loading and not authenticated
     return (
       <div className="hidden md:flex items-center space-x-2 space-x-reverse">
         <Button variant="ghost" asChild>
@@ -96,14 +96,9 @@ export default function Header() {
           </Link>
         </Button>
       ))}
-      <Button variant="ghost" asChild onClick={inSheet ? () => setMobileMenuOpen(false) : undefined}>
-        <Link href="/cart" className="flex items-center space-x-2 space-x-reverse px-3 py-2">
-          <ShoppingCart className="h-4 w-4" />
-          <span>سبد خرید</span>
-        </Link>
-      </Button>
-
-      {!isAuthenticated && !isLoading && inSheet && (
+      
+      {/* Mobile specific Auth buttons if in sheet and not authenticated */}
+      {!authIsLoading && !isAuthenticated && inSheet && (
         <>
           <DropdownMenuSeparator className="my-2" />
           <Button variant="ghost" asChild onClick={() => setMobileMenuOpen(false)} className="w-full justify-start">
@@ -134,18 +129,36 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center space-x-1 space-x-reverse">
-          <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative md:hidden" asChild> 
-            <Link href="/cart">
-              <ShoppingCart className="h-6 w-6" />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
-                  {itemCount}
-                </span>
-              )}
-            </Link>
-          </Button>
+          {/* Cart icon for mobile - now part of navLinks, so it's conditional via NavMenuItems */}
+          {/* Desktop cart icon is also part of navLinks */}
+          <div className="relative hidden md:block"> {/* Cart icon specifically for desktop next to user actions if needed, or rely on nav menu */}
+             <Button variant="ghost" size="icon" asChild aria-label="باز کردن سبد خرید">
+                <Link href="/cart">
+                    <ShoppingCart className="h-6 w-6" />
+                    {itemCount > 0 && (
+                    <span className="absolute -top-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                        {itemCount}
+                    </span>
+                    )}
+                </Link>
+            </Button>
+          </div>
+          
           <UserActions />
-          <div className="md:hidden">
+
+          <div className="md:hidden flex items-center">
+            {/* Mobile Cart Icon - visible next to menu burger */}
+            <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative" asChild> 
+              <Link href="/cart">
+                <ShoppingCart className="h-6 w-6" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                    {itemCount}
+                  </span>
+                )}
+              </Link>
+            </Button>
+            {/* Mobile Menu Burger */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -153,7 +166,7 @@ export default function Header() {
                   <span className="sr-only">باز/بسته کردن منو</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-4 flex flex-col">
+              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-4 flex flex-col bg-background">
                 <div className="mb-4">
                    <Link href="/" className="text-xl font-headline font-bold text-primary hover:text-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                     فروشگاه آمیتیست
