@@ -25,15 +25,15 @@ export default function RegisterPage() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       register(email, password); // Password not used in current useAuth hook
       toast({
-        title: "Registration Successful!",
-        description: "Welcome to Amethyst Shop! You are now logged in.",
+        title: "ثبت‌نام موفقیت‌آمیز!",
+        description: "به فروشگاه آمیتیست خوش آمدید! شما اکنون وارد شده‌اید.",
          className: "border-primary bg-primary text-primary-foreground",
       });
       // router.push('/'); // useEffect will handle this
     } catch (error: any) {
        toast({
-        title: "Registration Failed",
-        description: error.message || "An unexpected error occurred.",
+        title: "ثبت‌نام ناموفق",
+        description: error.message || "خطایی غیرمنتظره رخ داد.",
         variant: "destructive",
       });
     } finally {
@@ -42,7 +42,7 @@ export default function RegisterPage() {
   };
   
   if (authIsLoading) {
-    return <div className="flex justify-center items-center h-screen"><p>Loading...</p></div>;
+    return <div className="flex justify-center items-center h-screen"><p>در حال بارگذاری...</p></div>;
   }
 
   if (isAuthenticated) {

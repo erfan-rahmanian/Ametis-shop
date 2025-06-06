@@ -24,22 +24,22 @@ export default function AuthForm({ formType, onSubmit, isLoading = false }: Auth
     event.preventDefault();
     setError(null);
     if (formType === 'register' && password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("رمزهای عبور مطابقت ندارند.");
       return;
     }
     if (!email || !password) {
-      setError("Email and password are required.");
+      setError("ایمیل و رمز عبور الزامی هستند.");
       return;
     }
     // Basic email validation
     if (!/\S+@\S+\.\S+/.test(email)) {
-        setError("Please enter a valid email address.");
+        setError("لطفاً یک آدرس ایمیل معتبر وارد کنید.");
         return;
     }
     try {
       await onSubmit(email, password);
     } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+      setError(err.message || "خطایی غیرمنتظره رخ داد.");
     }
   };
 
@@ -48,16 +48,16 @@ export default function AuthForm({ formType, onSubmit, isLoading = false }: Auth
       <Card className="w-full max-w-md shadow-2xl bg-card/80 backdrop-blur-sm animate-fade-in">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-headline text-primary">
-            {formType === 'login' ? 'Welcome Back!' : 'Create Account'}
+            {formType === 'login' ? 'خوش آمدید!' : 'ایجاد حساب کاربری'}
           </CardTitle>
           <CardDescription>
-            {formType === 'login' ? 'Log in to continue your shopping journey.' : 'Sign up to discover exclusive products.'}
+            {formType === 'login' ? 'برای ادامه خرید وارد شوید.' : 'برای کشف محصولات انحصاری ثبت‌نام کنید.'}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground/80">Email Address</Label>
+              <Label htmlFor="email" className="text-foreground/80">آدرس ایمیل</Label>
               <Input
                 id="email"
                 type="email"
@@ -69,7 +69,7 @@ export default function AuthForm({ formType, onSubmit, isLoading = false }: Auth
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground/80">Password</Label>
+              <Label htmlFor="password" className="text-foreground/80">رمز عبور</Label>
               <Input
                 id="password"
                 type="password"
@@ -82,7 +82,7 @@ export default function AuthForm({ formType, onSubmit, isLoading = false }: Auth
             </div>
             {formType === 'register' && (
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-foreground/80">Confirm Password</Label>
+                <Label htmlFor="confirmPassword" className="text-foreground/80">تکرار رمز عبور</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
@@ -96,16 +96,16 @@ export default function AuthForm({ formType, onSubmit, isLoading = false }: Auth
             )}
             {error && <p className="text-sm text-destructive">{error}</p>}
             <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg py-6" disabled={isLoading}>
-              {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : (formType === 'login' ? 'Log In' : 'Register')}
+              {isLoading ? <Loader2 className="ms-2 h-5 w-5 animate-spin" /> : (formType === 'login' ? 'ورود' : 'ثبت‌نام')}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col items-center space-y-2">
           <p className="text-sm text-muted-foreground">
-            {formType === 'login' ? "Don't have an account?" : 'Already have an account?'}
+            {formType === 'login' ? "حساب کاربری ندارید؟" : 'قبلاً حساب کاربری ایجاد کرده‌اید؟'}
             <Button variant="link" asChild className="text-accent hover:text-accent/80 px-1">
               <Link href={formType === 'login' ? '/register' : '/login'}>
-                {formType === 'login' ? 'Sign up' : 'Log in'}
+                {formType === 'login' ? 'ثبت‌نام' : 'ورود'}
               </Link>
             </Button>
           </p>

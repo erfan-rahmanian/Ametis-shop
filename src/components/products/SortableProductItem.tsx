@@ -30,7 +30,7 @@ export default function SortableProductItem({
       onDragStart={(e) => onDragStart(e, index)}
       onDragOver={(e) => onDragOver(e, index)}
       onDrop={(e) => onDrop(e, index)}
-      className={`flex items-center p-4 space-x-4 border rounded-lg shadow-sm cursor-grab transition-all duration-150 ease-in-out ${isDragging ? 'opacity-50 scale-95 shadow-xl bg-secondary' : 'bg-card hover:shadow-md'}`}
+      className={`flex items-center p-4 space-x-4 space-x-reverse border rounded-lg shadow-sm cursor-grab transition-all duration-150 ease-in-out ${isDragging ? 'opacity-50 scale-95 shadow-xl bg-secondary' : 'bg-card hover:shadow-md'}`} // Added space-x-reverse
     >
       <GripVertical className="h-6 w-6 text-muted-foreground flex-shrink-0" />
       <div className="w-12 h-12 flex-shrink-0 relative">

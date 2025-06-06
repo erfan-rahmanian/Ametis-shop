@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'],
-        headline: ['Playfair Display', 'serif'],
+        body: ['PT Sans', 'sans-serif'], // Consider adding a specific Persian font here later
+        headline: ['Playfair Display', 'serif'], // Consider adding a specific Persian font here later
         code: ['monospace'],
       },
       colors: {
@@ -103,6 +103,22 @@ export default {
         'fade-in': 'fade-in 0.5s ease-out',
         'slide-in-up': 'slide-in-up 0.5s ease-out forwards',
       },
+      spacing: { // Ensure existing spacing utilities can be reversed if needed via space-x-reverse etc.
+        '0': '0',
+        '1': '0.25rem',
+        '2': '0.5rem',
+        '3': '0.75rem',
+        '4': '1rem',
+        '5': '1.25rem',
+        '6': '1.5rem',
+        '8': '2rem',
+        '10': '2.5rem',
+        '12': '3rem',
+        '16': '4rem',
+        '20': '5rem',
+        '24': '6rem',
+        '32': '8rem',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],

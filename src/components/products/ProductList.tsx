@@ -38,7 +38,7 @@ export default function ProductList({ initialProducts }: ProductListProps) {
             finalProducts = [...orderedPart, ...Array.from(remainingProducts)];
           }
         } catch (e) {
-          console.error("Failed to parse product sort order:", e);
+          console.error("خطا در تجزیه ترتیب محصولات:", e);
           // Fallback to initialProducts if parsing fails
         }
       }
@@ -69,7 +69,7 @@ export default function ProductList({ initialProducts }: ProductListProps) {
   }
   
   if (!sortedProducts || sortedProducts.length === 0) {
-    return <p className="text-center text-muted-foreground text-lg">No products found.</p>;
+    return <p className="text-center text-muted-foreground text-lg">هیچ محصولی یافت نشد.</p>;
   }
 
   return (

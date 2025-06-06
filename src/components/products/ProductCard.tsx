@@ -20,8 +20,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = () => {
     addToCart(product);
     toast({
-      title: "Added to cart!",
-      description: `${product.title} has been added to your cart.`,
+      title: "به سبد خرید اضافه شد!",
+      description: `${product.title} به سبد خرید شما اضافه شد.`,
       className: "border-primary bg-primary text-primary-foreground",
     });
   };
@@ -29,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="flex flex-col h-full overflow-hidden group transform transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02] animate-slide-in-up opacity-0" style={{ animationDelay: `${product.id * 50}ms` }}>
       <CardHeader className="p-0 relative">
-        <Link href={`/products/${product.id}`} aria-label={`View details for ${product.title}`}>
+        <Link href={`/products/${product.id}`} aria-label={`مشاهده جزئیات ${product.title}`}>
           <div className="aspect-square overflow-hidden">
             <Image
               src={product.image}
@@ -43,7 +43,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </Link>
       </CardHeader>
       <CardContent className="flex-grow p-4 space-y-2">
-        <Link href={`/products/${product.id}`} aria-label={`View details for ${product.title}`}>
+        <Link href={`/products/${product.id}`} aria-label={`مشاهده جزئیات ${product.title}`}>
           <CardTitle className="text-lg font-headline leading-tight h-12 overflow-hidden text-ellipsis hover:text-primary transition-colors">
             {product.title}
           </CardTitle>
@@ -52,8 +52,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         <p className="text-xl font-semibold text-primary">${product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4">
-        <Button onClick={handleAddToCart} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" aria-label={`Add ${product.title} to cart`}>
-          <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+        <Button onClick={handleAddToCart} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" aria-label={`افزودن ${product.title} به سبد خرید`}>
+          <ShoppingCart className="ms-2 h-4 w-4" /> افزودن به سبد خرید {/* Changed mr-2 to ms-2 */}
         </Button>
       </CardFooter>
     </Card>

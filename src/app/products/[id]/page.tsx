@@ -18,11 +18,11 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const product = await fetchProductById(params.id);
   if (!product) {
     return {
-      title: 'Product Not Found',
+      title: 'محصول یافت نشد',
     };
   }
   return {
-    title: `${product.title} - Amethyst Shop`,
+    title: `${product.title} - فروشگاه آمیتیست`,
     description: product.description,
   };
 }
@@ -33,10 +33,10 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
   if (!product) {
     return (
       <div className="text-center py-12">
-        <h1 className="text-3xl font-headline font-semibold mb-4">Product Not Found</h1>
-        <p className="text-muted-foreground">Sorry, we couldn't find the product you're looking for.</p>
+        <h1 className="text-3xl font-headline font-semibold mb-4">محصول یافت نشد</h1>
+        <p className="text-muted-foreground">متاسفانه، محصولی که به دنبال آن بودید پیدا نشد.</p>
         <Button asChild className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground">
-          <a href="/">Go to Homepage</a>
+          <a href="/">رفتن به صفحه اصلی</a>
         </Button>
       </div>
     );
@@ -72,7 +72,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                     />
                   ))}
                 </div>
-                <span className="text-muted-foreground text-sm">({product.rating.count} reviews)</span>
+                <span className="text-muted-foreground text-sm">({product.rating.count} نظر)</span>
               </div>
 
               <p className="text-3xl font-semibold text-accent">${product.price.toFixed(2)}</p>
@@ -80,7 +80,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
               <Separator />
               
               <div>
-                <h3 className="text-xl font-semibold mb-2 text-foreground/90">Description</h3>
+                <h3 className="text-xl font-semibold mb-2 text-foreground/90">توضیحات</h3>
                 <p className="text-foreground/80 leading-relaxed">{product.description}</p>
               </div>
             </CardContent>

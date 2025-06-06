@@ -6,8 +6,8 @@ import Footer from '@/components/layout/Footer';
 import { CartProvider } from '@/contexts/CartContext';
 
 export const metadata: Metadata = {
-  title: 'Amethyst Shop - Luxurious Finds',
-  description: 'Discover unique products at Amethyst Shop.',
+  title: 'فروشگاه آمیتیست - یافته‌های لوکس',
+  description: 'محصولات بی‌نظیر را در فروشگاه آمیتیست کشف کنید.',
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

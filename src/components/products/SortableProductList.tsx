@@ -46,7 +46,7 @@ export default function SortableProductList({ initialProducts }: SortableProduct
           finalProducts = [...orderedPart, ...Array.from(remainingProducts)];
         }
       } catch (e) {
-        console.error("Failed to parse product sort order:", e);
+        console.error("خطا در تجزیه ترتیب محصولات:", e);
       }
     }
     setSortedProducts(finalProducts);
@@ -94,8 +94,8 @@ export default function SortableProductList({ initialProducts }: SortableProduct
     const productIdsInOrder = sortedProducts.map(p => p.id);
     localStorage.setItem(PRODUCT_SORT_ORDER_KEY, JSON.stringify(productIdsInOrder));
     toast({
-      title: "Order Saved!",
-      description: "Your custom product order has been saved.",
+      title: "ترتیب ذخیره شد!",
+      description: "ترتیب سفارشی محصولات شما ذخیره شد.",
       className: "border-primary bg-primary text-primary-foreground",
     });
   };
@@ -112,21 +112,21 @@ export default function SortableProductList({ initialProducts }: SortableProduct
   }
 
   if (!sortedProducts || sortedProducts.length === 0) {
-    return <p className="text-center text-muted-foreground text-lg">No products to sort.</p>;
+    return <p className="text-center text-muted-foreground text-lg">هیچ محصولی برای مرتب‌سازی وجود ندارد.</p>;
   }
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-headline font-semibold text-primary/90">
-          Sort Your Products
+          مرتب‌سازی محصولات
         </h2>
         <Button onClick={saveOrder} className="bg-accent hover:bg-accent/90 text-accent-foreground">
-          <Save className="mr-2 h-4 w-4" /> Save Order
+          <Save className="ms-2 h-4 w-4" /> ذخیره ترتیب {/* Changed mr-2 to ms-2 */}
         </Button>
       </div>
       <p className="text-muted-foreground">
-        Drag and drop products to change their display order on the homepage. Your preferences will be saved locally.
+        محصولات را بکشید و رها کنید تا ترتیب نمایش آنها در صفحه اصلی تغییر کند. تنظیمات شما به صورت محلی ذخیره خواهد شد.
       </p>
       <div className="space-y-3" onDragEnd={handleDragEnd}>
         {sortedProducts.map((product, index) => (

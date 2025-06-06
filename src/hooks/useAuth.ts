@@ -18,7 +18,7 @@ export function useAuth() {
         setUser(JSON.parse(storedUser));
       }
     } catch (error) {
-      console.error("Failed to load user from localStorage", error);
+      console.error("خطا در بارگذاری کاربر از localStorage", error);
       localStorage.removeItem(AUTH_KEY); // Clear corrupted data
     }
     setIsLoading(false);

@@ -18,8 +18,8 @@ export default function AddToCartButton({ product, className }: AddToCartButtonP
   const handleAddToCart = () => {
     addToCart(product);
     toast({
-      title: "Added to cart!",
-      description: `${product.title} has been added to your cart.`,
+      title: "به سبد خرید اضافه شد!",
+      description: `${product.title} به سبد خرید شما اضافه شد.`,
       className: "border-primary bg-primary text-primary-foreground",
     });
   };
@@ -29,9 +29,9 @@ export default function AddToCartButton({ product, className }: AddToCartButtonP
       onClick={handleAddToCart} 
       size="lg" 
       className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${className}`}
-      aria-label={`Add ${product.title} to cart`}
+      aria-label={`افزودن ${product.title} به سبد خرید`}
     >
-      <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
+      <ShoppingCart className="ms-2 h-5 w-5" /> افزودن به سبد خرید {/* Changed mr-2 to ms-2 */}
     </Button>
   );
 }

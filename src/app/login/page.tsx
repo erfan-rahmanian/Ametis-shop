@@ -25,15 +25,15 @@ export default function LoginPage() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       login(email, password); // Password not used in current useAuth hook
       toast({
-        title: "Login Successful!",
-        description: "Welcome back to Amethyst Shop.",
+        title: "ورود موفقیت‌آمیز!",
+        description: "به فروشگاه آمیتیست خوش آمدید.",
         className: "border-primary bg-primary text-primary-foreground",
       });
       // router.push('/'); // useEffect will handle this
     } catch (error: any) {
       toast({
-        title: "Login Failed",
-        description: error.message || "An unexpected error occurred.",
+        title: "ورود ناموفق",
+        description: error.message || "خطایی غیرمنتظره رخ داد.",
         variant: "destructive",
       });
     } finally {
@@ -42,7 +42,7 @@ export default function LoginPage() {
   };
 
   if (authIsLoading) {
-     return <div className="flex justify-center items-center h-screen"><p>Loading...</p></div>;
+     return <div className="flex justify-center items-center h-screen"><p>در حال بارگذاری...</p></div>;
   }
   
   if (isAuthenticated) {
