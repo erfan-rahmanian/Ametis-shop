@@ -43,7 +43,7 @@ export default async function HomePage() {
       <Separator />
 
       {/* Categories Section */}
-      <section id="categories" className="space-y-6">
+      <section id="categories" className="space-y-6 py-10 px-6 bg-gradient-to-br from-primary/5 via-background to-accent/5 rounded-xl shadow-lg">
         <div className="text-center animate-fade-in" style={{animationDelay: '0.2s'}}>
             <Layers className="mx-auto h-12 w-12 text-primary mb-3" />
             <h2 className="text-2xl sm:text-3xl font-headline font-semibold text-primary/90">
@@ -95,3 +95,4 @@ export default async function HomePage() {
 
 // Revalidate data every hour
 export const revalidate = 3600;
+
