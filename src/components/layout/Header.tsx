@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -24,7 +25,7 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: 'Home', icon: <Package className="h-4 w-4" /> },
-    { href: '/sort-products', label: 'Sort Products', icon: <Package className="h-4 w-4" /> }, // Placeholder icon
+    { href: '/sort-products', label: 'Sort Products', icon: <Package className="h-4 w-4" /> },
   ];
 
   const UserActions = () => {
@@ -116,7 +117,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center space-x-3">
-          <Button variant="ghost" size="icon" onClick={openCart} aria-label="Open shopping cart">
+          <Button variant="ghost" size="icon" onClick={openCart} aria-label="Open shopping cart" className="relative">
             <ShoppingCart className="h-6 w-6" />
             {itemCount > 0 && (
               <span className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
