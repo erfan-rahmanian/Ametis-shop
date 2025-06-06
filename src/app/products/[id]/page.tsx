@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from '@/components/ui/separator';
 import { Star, ShoppingCart } from 'lucide-react';
 import AddToCartButton from '@/components/products/AddToCartButton'; // A client component for adding to cart
+import ProductList from '@/components/products/ProductList';
 
 export async function generateStaticParams() {
   const products = await fetchProducts();
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
   const product = await fetchProductById(params.id);
+  const allProducts = await fetchProducts();
 
   if (!product) {
     return (
@@ -43,8 +45,12 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
     );
   }
 
+  const similarProducts = allProducts
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 5); // Show up to 5 similar products
+
   return (
-    <div className="container mx-auto py-8 animate-fade-in">
+    <div className="container mx-auto py-8 animate-fade-in space-y-12">
       <Card className="overflow-hidden shadow-xl">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="p-6 bg-card flex justify-center items-center aspect-square md:aspect-auto">
@@ -64,7 +70,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
             </CardHeader>
             
             <CardContent className="p-0 flex-grow space-y-6">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 space-x-reverse">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (
                     <Star
@@ -92,6 +98,16 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
           </div>
         </div>
       </Card>
+
+      {similarProducts.length > 0 && (
+        <section className="space-y-6">
+          <Separator />
+          <h2 className="text-2xl sm:text-3xl font-headline font-semibold text-center text-primary/90">
+            محصولات مشابه
+          </h2>
+          <ProductList initialProducts={similarProducts} />
+        </section>
+      )}
     </div>
   );
 }
