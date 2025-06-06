@@ -31,7 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         </Link>
       </CardHeader>
-      <CardContent className="flex-grow p-4 space-y-2">
+      <CardContent className="flex-grow p-4 space-y-2 text-center">
         <Link href={`/products/${product.id}`} aria-label={`مشاهده جزئیات ${product.title}`}>
           <CardTitle className="text-lg font-headline leading-tight h-12 overflow-hidden text-ellipsis text-card-foreground group-hover:text-primary transition-colors">
             {product.title}
@@ -40,9 +40,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         <CardDescription className="text-xs text-muted-foreground capitalize">{product.category}</CardDescription>
         <p className="text-xl font-semibold text-accent">${product.price.toFixed(2)}</p>
       </CardContent>
-      <CardFooter className="p-4">
+      <CardFooter className="p-4 flex justify-center">
         <AddToCartButton product={product} />
       </CardFooter>
     </Card>
   );
 }
+
