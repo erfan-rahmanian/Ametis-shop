@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User, Search as SearchIcon } from 'lucide-react';
+import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard, User, Search as SearchIcon, Layers } from 'lucide-react'; // Added Layers
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartContext';
@@ -16,7 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"; // Added SheetHeader, SheetTitle
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useState, type FormEvent, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -79,6 +79,7 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: 'خانه', icon: <Package className="h-4 w-4" /> },
+    { href: '/#categories', label: 'دسته‌بندی‌ها', icon: <Layers className="h-4 w-4" /> },
     { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <LayoutDashboard className="h-4 w-4" /> },
   ];
 
