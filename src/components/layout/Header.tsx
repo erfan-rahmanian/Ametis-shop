@@ -19,13 +19,14 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from 'react';
 
 export default function Header() {
-  const { itemCount, openCart } = useCart();
+  const { itemCount } = useCart(); // Removed openCart as we navigate directly
   const { user, logout, isAuthenticated, isLoading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
     { href: '/', label: 'Home', icon: <Package className="h-4 w-4" /> },
     { href: '/sort-products', label: 'Sort Products', icon: <Package className="h-4 w-4" /> },
+    { href: '/cart', label: 'Cart', icon: <ShoppingCart className="h-4 w-4" /> },
   ];
 
   const UserActions = () => {
@@ -117,14 +118,16 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center space-x-3">
-          <Button variant="ghost" size="icon" onClick={openCart} aria-label="Open shopping cart" className="relative">
-            <ShoppingCart className="h-6 w-6" />
-            {itemCount > 0 && (
-              <span className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
-                {itemCount}
-              </span>
-            )}
-          </Button>
+          <Link href="/cart" passHref legacyBehavior>
+            <Button variant="ghost" size="icon" aria-label="Open shopping cart" className="relative">
+              <ShoppingCart className="h-6 w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                  {itemCount}
+                </span>
+              )}
+            </Button>
+          </Link>
           <UserActions />
           <div className="md:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
