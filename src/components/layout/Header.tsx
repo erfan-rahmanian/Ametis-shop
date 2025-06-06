@@ -52,11 +52,11 @@ export default function Header() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
+          <DropdownMenuContent className="w-52" align="end" forceMount> {/* Adjusted width to w-52 */}
+            <DropdownMenuLabel className="font-normal px-2 py-2"> {/* Adjusted padding */}
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">وارد شده با نام</p>
-                <p className="text-xs leading-none text-muted-foreground truncate">
+                <p className="text-xs text-muted-foreground">وارد شده با نام:</p>
+                <p className="text-sm font-medium leading-none text-foreground truncate">
                   {user.email}
                 </p>
               </div>
@@ -186,3 +186,4 @@ export default function Header() {
     </header>
   );
 }
+
