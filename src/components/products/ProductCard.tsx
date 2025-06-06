@@ -38,7 +38,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </CardTitle>
         </Link>
         <CardDescription className="text-xs text-muted-foreground capitalize">{product.category}</CardDescription>
-        <p className="text-xl font-semibold text-accent">${product.price.toFixed(2)}</p>
+        <p className="text-xl font-semibold text-card-foreground">${product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4 flex justify-center">
         <AddToCartButton product={product} />
