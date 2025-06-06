@@ -24,18 +24,18 @@ export default function CartItemDisplay({ item }: CartItemDisplayProps) {
     <div className="py-4 border-b border-border/60 animate-fade-in">
       {/* Mobile Layout (default) */}
       <div className="sm:hidden flex flex-col items-center space-y-3 text-center">
-        <Link href={`/products/${item.id}`} className="block w-32 h-32" aria-label={`مشاهده ${item.title}`}>
+        <Link href={`/products/${item.id}`} className="block w-28 h-28" aria-label={`مشاهده ${item.title}`}>
           <Image
             src={item.image}
             alt={item.title}
-            width={128} 
-            height={128}
-            className="rounded-md object-contain border border-border/40 p-1 bg-white"
+            width={112} 
+            height={112}
+            className="rounded-md object-contain border border-border/40 p-1 bg-white h-full w-full"
             data-ai-hint="product photo"
           />
         </Link>
-        <Link href={`/products/${item.id}`} aria-label={`مشاهده ${item.title}`}>
-          <h3 className="font-semibold text-foreground hover:text-primary transition-colors px-2">{item.title}</h3>
+        <Link href={`/products/${item.id}`} className="block w-full" aria-label={`مشاهده ${item.title}`}>
+          <h3 className="font-semibold text-foreground hover:text-primary transition-colors px-4">{item.title}</h3>
         </Link>
         <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} هر عدد</p>
         <div className="flex items-center space-x-2 space-x-reverse">
