@@ -23,11 +23,11 @@ export default async function HomePage() {
                 priority
               />
             </div>
-            <div className="md:order-1 text-center md:text-right pt-4 md:pt-0">
+            <div className="md:order-1 text-center pt-4 md:pt-0">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline font-bold text-primary mb-8 animate-fade-in py-6">
                 به فروشگاه آمیتیست خوش آمدید
               </h1>
-              <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto md:mx-0 md:ms-auto animate-fade-in px-2" style={{animationDelay: '0.3s'}}>
+              <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto animate-fade-in px-2" style={{animationDelay: '0.3s'}}>
                 مجموعه‌ای نفیس از محصولات بی‌نظیر و باکیفیت را که فقط برای شما گردآوری شده، کشف کنید. تجربه‌ای لوکس از خرید را با طراحی مدرن و پشتیبانی بی‌نظیر برای خود رقم بزنید.
               </p>
               {/* Optional: Add a Call to Action button here if desired in the future */}
