@@ -1,3 +1,4 @@
+
 import { fetchProductById, fetchProducts } from '@/lib/api';
 import type { Product } from '@/lib/types';
 import Image from 'next/image';
@@ -86,7 +87,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
             </CardContent>
             
             <CardFooter className="p-0 mt-8">
-              <AddToCartButton product={product} />
+              <AddToCartButton product={product} size="lg" />
             </CardFooter>
           </div>
         </div>

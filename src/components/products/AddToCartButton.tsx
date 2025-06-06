@@ -2,7 +2,7 @@
 "use client";
 
 import type { Product } from '@/lib/types';
-import { Button } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import { ShoppingCart, AlertTriangle } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
@@ -14,9 +14,10 @@ import React from 'react';
 interface AddToCartButtonProps {
   product: Product;
   className?: string;
+  size?: ButtonProps['size'];
 }
 
-export default function AddToCartButton({ product, className }: AddToCartButtonProps) {
+export default function AddToCartButton({ product, className, size = "default" }: AddToCartButtonProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
@@ -67,7 +68,7 @@ export default function AddToCartButton({ product, className }: AddToCartButtonP
   return (
     <Button 
       onClick={handleAddToCart} 
-      size="lg" 
+      size={size} 
       className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${className}`}
       aria-label={`افزودن ${product.title} به سبد خرید`}
       disabled={authLoading}
