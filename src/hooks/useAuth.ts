@@ -62,10 +62,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLoading,
   };
 
-  return (
-    <AuthContext.Provider value={providerBindingValue}>
-      {children}
-    </AuthContext.Provider>
+  // Using React.createElement to bypass potential JSX parsing issues for this specific element
+  return React.createElement(
+    AuthContext.Provider,
+    { value: providerBindingValue },
+    children
   );
 };
 
