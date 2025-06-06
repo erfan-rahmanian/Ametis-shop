@@ -69,9 +69,9 @@ export default function Header() {
     event.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery(''); 
+      setSearchQuery('');
       if (mobileMenuOpen) {
-        setMobileMenuOpen(false); 
+        setMobileMenuOpen(false);
       }
     }
   }, [searchQuery, router, mobileMenuOpen, setSearchQuery, setMobileMenuOpen]);
@@ -97,9 +97,9 @@ export default function Header() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent 
-            className="w-52" 
-            side="right" 
+          <DropdownMenuContent
+            className="w-52"
+            side="right"
             align="start"
             sideOffset={5}
             alignOffset={-16}
@@ -141,10 +141,10 @@ export default function Header() {
   const NavMenuItems = ({ inSheet = false }: { inSheet?: boolean }) => (
     <>
       {navLinks.map((link) => (
-        <Button 
-          variant="ghost" 
-          asChild 
-          key={link.href} 
+        <Button
+          variant="ghost"
+          asChild
+          key={link.href}
           onClick={inSheet && setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
           className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : ''}`}
         >
@@ -155,9 +155,9 @@ export default function Header() {
         </Button>
       ))}
       {inSheet && (
-         <Button 
-            variant="ghost" 
-            asChild 
+         <Button
+            variant="ghost"
+            asChild
             onClick={setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
             className="w-full justify-start px-3 py-2 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
@@ -175,19 +175,19 @@ export default function Header() {
       {!authIsLoading && !isAuthenticated && inSheet && (
         <>
           <DropdownMenuSeparator className="my-2 bg-sidebar-border" />
-          <Button 
-            variant="ghost" 
-            asChild 
-            onClick={setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined} 
+          <Button
+            variant="ghost"
+            asChild
+            onClick={setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
             className="w-full justify-start px-3 py-2 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
             <Link href="/login" className="flex items-center space-x-2 space-x-reverse">
               <LogIn className="h-4 w-4" /> <span>ورود</span>
             </Link>
           </Button>
-          <Button 
-            asChild 
-            className="bg-sidebar-accent hover:bg-sidebar-accent/90 text-sidebar-accent-foreground w-full justify-center px-3 py-2" 
+          <Button
+            asChild
+            className="bg-sidebar-accent hover:bg-sidebar-accent/90 text-sidebar-accent-foreground w-full justify-center px-3 py-2"
             onClick={setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
           >
             <Link href="/register" className="flex items-center space-x-2 space-x-reverse">
@@ -203,15 +203,15 @@ export default function Header() {
             <p className="text-xs text-sidebar-foreground/70">وارد شده با نام:</p>
             <p className="text-sm font-medium text-sidebar-foreground truncate">{user.email}</p>
           </div>
-          <Button 
-            variant="ghost" 
-            onClick={() => { 
-              handleLogout(); 
+          <Button
+            variant="ghost"
+            onClick={() => {
+              handleLogout();
               if (setMobileMenuOpen) setMobileMenuOpen(false);
-            }} 
-            className="w-full justify-start text-sidebar-foreground hover:text-destructive hover:bg-destructive/10 focus:bg-destructive/10 focus:text-destructive px-3 py-2"
+            }}
+            className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 focus:bg-destructive/10 focus:text-destructive px-3 py-2"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="ms-2 h-4 w-4" /> {/* ms-2 for RTL (icon on right of text) */}
             <span>خروج</span>
           </Button>
         </>
@@ -253,7 +253,7 @@ export default function Header() {
                 </Link>
             </Button>
           </div>
-          
+
           {/* UserActions for desktop only */}
           <div className="hidden md:block">
             <UserActions />
@@ -261,7 +261,7 @@ export default function Header() {
 
           {/* Mobile specific icons & menu trigger */}
           <div className="md:hidden flex items-center space-x-1 space-x-reverse"> {/* Added space-x-1 space-x-reverse */}
-            <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative" asChild> 
+            <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative" asChild>
               <Link href="/cart">
                 <ShoppingCart className="h-6 w-6" />
                 {itemCount > 0 && (
