@@ -13,7 +13,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <Card className="flex flex-col h-full overflow-hidden group transform transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02] animate-slide-in-up opacity-0" style={{ animationDelay: `${product.id * 50}ms` }}>
+    <Card className="flex flex-col h-full overflow-hidden group transform transition-all duration-300 ease-in-out border-primary/20 hover:border-accent hover:ring-2 hover:ring-accent/30 hover:shadow-2xl hover:scale-[1.02] animate-slide-in-up opacity-0" style={{ animationDelay: `${product.id * 50}ms` }}>
       <CardHeader className="p-0 relative">
         <Link href={`/products/${product.id}`} aria-label={`مشاهده جزئیات ${product.title}`}>
           <div className="aspect-square overflow-hidden">
