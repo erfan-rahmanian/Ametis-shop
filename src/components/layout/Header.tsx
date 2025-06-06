@@ -1,7 +1,8 @@
+
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, LogIn, UserPlus, LogOut, Menu, Package } from 'lucide-react';
+import { ShoppingCart, LogIn, UserPlus, LogOut, Menu, Package, LayoutDashboard } from 'lucide-react'; // Added LayoutDashboard for potential profile link
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/hooks/useAuth';
@@ -24,21 +25,20 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: 'خانه', icon: <Package className="h-4 w-4" /> },
-    { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <Package className="h-4 w-4" /> },
-    { href: '/cart', label: 'سبد خرید', icon: <ShoppingCart className="h-4 w-4" /> },
+    { href: '/sort-products', label: 'مرتب‌سازی محصولات', icon: <LayoutDashboard className="h-4 w-4" /> }, // Changed icon for variety
   ];
 
   const UserActions = () => {
     if (isLoading) {
-      return <div className="h-8 w-20 animate-pulse bg-muted rounded-md" />;
+      return <div className="h-10 w-20 animate-pulse bg-muted rounded-md" />;
     }
     if (isAuthenticated && user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-              <Avatar className="h-9 w-9">
-                <AvatarImage src={`https://avatar.vercel.sh/${user.email}.png`} alt={user.email} />
+              <Avatar className="h-9 w-9 border-2 border-transparent hover:border-primary transition-colors">
+                <AvatarImage src={`https://avatar.vercel.sh/${user.email}.png?size=36`} alt={user.email} />
                 <AvatarFallback>{user.email?.[0]?.toUpperCase()}</AvatarFallback>
               </Avatar>
             </Button>
@@ -53,8 +53,17 @@ export default function Header() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logout()}>
-              <LogOut className="ms-2 h-4 w-4" /> {/* Changed mr-2 to ms-2 */}
+            {/* Potential future profile link:
+            <DropdownMenuItem asChild>
+              <Link href="/profile">
+                <User className="ms-2 h-4 w-4" />
+                <span>پروفایل من</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            */}
+            <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
+              <LogOut className="ms-2 h-4 w-4" />
               <span>خروج</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -62,41 +71,49 @@ export default function Header() {
       );
     }
     return (
-      <div className="hidden md:flex items-center space-x-2 space-x-reverse"> {/* Added space-x-reverse */}
+      <div className="hidden md:flex items-center space-x-2 space-x-reverse">
         <Button variant="ghost" asChild>
           <Link href="/login">
-            <LogIn className="ms-2 h-4 w-4" /> ورود {/* Changed mr-2 to ms-2 */}
+            <LogIn className="ms-2 h-4 w-4" /> ورود
           </Link>
         </Button>
         <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
           <Link href="/register">
-            <UserPlus className="ms-2 h-4 w-4" /> ثبت‌نام {/* Changed mr-2 to ms-2 */}
+            <UserPlus className="ms-2 h-4 w-4" /> ثبت‌نام
           </Link>
         </Button>
       </div>
     );
   };
 
-  const NavMenu = ({ inSheet = false }: { inSheet?: boolean }) => (
+  const NavMenuItems = ({ inSheet = false }: { inSheet?: boolean }) => (
     <>
       {navLinks.map((link) => (
         <Button variant="ghost" asChild key={link.href} onClick={inSheet ? () => setMobileMenuOpen(false) : undefined}>
-          <Link href={link.href} className="flex items-center space-x-2 space-x-reverse"> {/* Added space-x-reverse */}
+          <Link href={link.href} className="flex items-center space-x-2 space-x-reverse px-3 py-2">
             {link.icon}
             <span>{link.label}</span>
           </Link>
         </Button>
       ))}
+      <Button variant="ghost" asChild onClick={inSheet ? () => setMobileMenuOpen(false) : undefined}>
+        <Link href="/cart" className="flex items-center space-x-2 space-x-reverse px-3 py-2">
+          <ShoppingCart className="h-4 w-4" />
+          <span>سبد خرید</span>
+        </Link>
+      </Button>
+
       {!isAuthenticated && !isLoading && inSheet && (
         <>
-          <Button variant="ghost" asChild onClick={() => setMobileMenuOpen(false)}>
-            <Link href="/login" className="flex items-center space-x-2 space-x-reverse"> {/* Added space-x-reverse */}
-              <LogIn className="h-4 w-4" /> ورود
+          <DropdownMenuSeparator className="my-2" />
+          <Button variant="ghost" asChild onClick={() => setMobileMenuOpen(false)} className="w-full justify-start">
+            <Link href="/login" className="flex items-center space-x-2 space-x-reverse px-3 py-2">
+              <LogIn className="h-4 w-4" /> <span>ورود</span>
             </Link>
           </Button>
-          <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground w-full" onClick={() => setMobileMenuOpen(false)}>
-            <Link href="/register" className="flex items-center space-x-2 space-x-reverse justify-center"> {/* Added space-x-reverse */}
-              <UserPlus className="h-4 w-4" /> ثبت‌نام
+          <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground w-full justify-center" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/register" className="flex items-center space-x-2 space-x-reverse px-3 py-2">
+              <UserPlus className="h-4 w-4" /> <span>ثبت‌نام</span>
             </Link>
           </Button>
         </>
@@ -112,21 +129,21 @@ export default function Header() {
           فروشگاه آمیتیست
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-4 space-x-reverse"> {/* Added space-x-reverse */}
-          <NavMenu />
+        <nav className="hidden md:flex items-center space-x-1 space-x-reverse">
+          <NavMenuItems />
         </nav>
 
-        <div className="flex items-center space-x-3 space-x-reverse"> {/* Added space-x-reverse */}
-          <Link href="/cart" passHref legacyBehavior>
-            <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative">
+        <div className="flex items-center space-x-1 space-x-reverse">
+          <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative md:hidden" asChild> 
+            <Link href="/cart">
               <ShoppingCart className="h-6 w-6" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground"> {/* Changed -right-1 to -left-1 */}
+                <span className="absolute -top-1 -left-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
                   {itemCount}
                 </span>
               )}
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <UserActions />
           <div className="md:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -136,9 +153,14 @@ export default function Header() {
                   <span className="sr-only">باز/بسته کردن منو</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[400px] p-6"> {/* Changed side="right" to "left" for RTL */}
-                <nav className="flex flex-col space-y-4">
-                  <NavMenu inSheet={true}/>
+              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-4 flex flex-col">
+                <div className="mb-4">
+                   <Link href="/" className="text-xl font-headline font-bold text-primary hover:text-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                    فروشگاه آمیتیست
+                  </Link>
+                </div>
+                <nav className="flex flex-col space-y-1">
+                  <NavMenuItems inSheet={true}/>
                 </nav>
               </SheetContent>
             </Sheet>

@@ -1,3 +1,4 @@
+
 "use client"
 
 // Inspired by react-hot-toast library
@@ -9,7 +10,7 @@ import type {
 } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_REMOVE_DELAY = 4000 // Changed from 1000000 to 4000
 
 type ToasterToast = ToastProps & {
   id: string
@@ -60,7 +61,7 @@ const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>()
 
 const addToRemoveQueue = (toastId: string) => {
   if (toastTimeouts.has(toastId)) {
-    return
+    clearTimeout(toastTimeouts.get(toastId));
   }
 
   const timeout = setTimeout(() => {
@@ -77,6 +78,15 @@ const addToRemoveQueue = (toastId: string) => {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TOAST":
+      // Remove previous toasts before adding a new one if limit is reached
+      if (state.toasts.length >= TOAST_LIMIT) {
+        state.toasts.slice(TOAST_LIMIT - 1).forEach(toast => {
+           if (toastTimeouts.has(toast.id)) {
+            clearTimeout(toastTimeouts.get(toast.id));
+            toastTimeouts.delete(toast.id);
+          }
+        });
+      }
       return {
         ...state,
         toasts: [action.toast, ...state.toasts].slice(0, TOAST_LIMIT),
@@ -93,8 +103,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -163,6 +171,12 @@ function toast({ ...props }: Toast) {
       },
     },
   })
+  
+  // Automatically dismiss after delay
+  if (props.duration !== Infinity) { // Allow infinite duration if specified
+     addToRemoveQueue(id);
+  }
+
 
   return {
     id: id,
