@@ -56,9 +56,7 @@ export default async function HomePage() {
             {categories.map((category, index) => (
               <Link key={category} href={`/category/${encodeURIComponent(category)}`} className="group block" style={{ animationDelay: `${index * 100}ms` }}>
                 <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all duration-300 ease-in-out transform hover:scale-105 bg-white/60 backdrop-blur-lg">
-                  <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
-                    {/* Placeholder for category image - could be added later */}
-                    {/* <Image src={`https://placehold.co/100x100.png?text=${encodeURIComponent(category)}`} alt={category} width={80} height={80} className="mb-4 rounded-md" data-ai-hint="category icon" /> */}
+                  <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full bg-white/60 backdrop-blur-lg">
                     <CardTitle className="text-lg sm:text-xl font-semibold capitalize text-card-foreground group-hover:text-primary transition-colors">
                       {category}
                     </CardTitle>
@@ -95,4 +93,3 @@ export default async function HomePage() {
 
 // Revalidate data every hour
 export const revalidate = 3600;
-
