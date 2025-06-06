@@ -16,7 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"; // Added SheetHeader, SheetTitle
 import { useState, type FormEvent, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -114,7 +114,7 @@ export default function Header() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
-              <LogOut className="ms-2 h-4 w-4" /> {/* ms-2 is correct for icon then text in LTR, translates to right margin for icon in RTL button content */}
+              <LogOut className="ms-2 h-4 w-4" />
               <span>خروج</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -148,7 +148,7 @@ export default function Header() {
           onClick={inSheet && setMobileMenuOpen ? () => setMobileMenuOpen(false) : undefined}
           className={`w-full justify-start px-3 py-2 ${inSheet ? 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : ''}`}
         >
-          <Link href={link.href} className="flex items-center space-x-2 space-x-reverse"> {/* space-x-reverse for RTL icon-text order */}
+          <Link href={link.href} className="flex items-center space-x-2 space-x-reverse">
             {link.icon}
             <span>{link.label}</span>
           </Link>
@@ -211,7 +211,7 @@ export default function Header() {
             }}
             className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 focus:bg-destructive/10 focus:text-destructive px-3 py-2"
           >
-            <LogOut className="ms-2 h-4 w-4" /> {/* ms-2 for RTL (icon on right of text) */}
+            <LogOut className="ms-2 h-4 w-4" />
             <span>خروج</span>
           </Button>
         </>
@@ -260,7 +260,7 @@ export default function Header() {
           </div>
 
           {/* Mobile specific icons & menu trigger */}
-          <div className="md:hidden flex items-center space-x-1 space-x-reverse"> {/* Added space-x-1 space-x-reverse */}
+          <div className="md:hidden flex items-center space-x-1 space-x-reverse">
             <Button variant="ghost" size="icon" aria-label="باز کردن سبد خرید" className="relative" asChild>
               <Link href="/cart">
                 <ShoppingCart className="h-6 w-6" />
@@ -279,12 +279,14 @@ export default function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 flex flex-col bg-sidebar text-sidebar-foreground">
-                <div className="p-4 border-b border-sidebar-border">
-                   <Link href="/" className="text-xl font-headline font-bold text-sidebar-primary hover:text-sidebar-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                    فروشگاه آمیتیست
-                  </Link>
-                </div>
-                <div className="px-4 py-3 border-b border-sidebar-border"> {/* Wrapper for search in sheet, handles padding */}
+                <SheetHeader className="p-4 border-b border-sidebar-border text-right">
+                  <SheetTitle asChild>
+                    <Link href="/" className="text-xl font-headline font-bold text-sidebar-primary hover:text-sidebar-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      فروشگاه آمیتیست
+                    </Link>
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="px-4 py-3 border-b border-sidebar-border">
                    <SearchFormComponent
                       searchQuery={searchQuery}
                       setSearchQuery={setSearchQuery}
@@ -292,7 +294,7 @@ export default function Header() {
                       inSheet={true}
                     />
                 </div>
-                <nav className="flex flex-col space-y-1 p-4 flex-grow overflow-y-auto"> {/* Added flex-grow and overflow for scroll if needed */}
+                <nav className="flex flex-col space-y-1 p-4 flex-grow overflow-y-auto">
                   <NavMenuItems inSheet={true}/>
                 </nav>
               </SheetContent>
