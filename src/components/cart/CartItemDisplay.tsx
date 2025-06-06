@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -20,7 +21,7 @@ export default function CartItemDisplay({ item }: CartItemDisplayProps) {
   };
 
   return (
-    <div className="flex items-center space-x-4 space-x-reverse py-4 border-b border-border/60 animate-fade-in"> {/* Added space-x-reverse */}
+    <div className="flex items-center space-x-3 space-x-reverse py-4 border-b border-border/60 animate-fade-in"> {/* Reduced space-x-4 to space-x-3 */}
       <Link href={`/products/${item.id}`} className="shrink-0">
         <Image
           src={item.image}
@@ -46,14 +47,14 @@ export default function CartItemDisplay({ item }: CartItemDisplayProps) {
           value={item.quantity}
           onChange={(e) => handleQuantityChange(parseInt(e.target.value, 10))}
           min="1"
-          className="w-14 text-center h-10" /* Changed w-16 to w-14 */
+          className="w-14 text-center h-10" 
           aria-label="تعداد کالا"
         />
         <Button variant="outline" size="icon" onClick={() => handleQuantityChange(item.quantity + 1)} aria-label="افزایش تعداد">
           <Plus className="h-4 w-4" />
         </Button>
       </div>
-      <p className="font-semibold w-24 text-left text-primary">${(item.price * item.quantity).toFixed(2)}</p> {/* Changed w-20 to w-24 */}
+      <p className="font-semibold w-22 text-left text-primary">${(item.price * item.quantity).toFixed(2)}</p> {/* Changed w-24 to w-22 */}
       <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive" aria-label="حذف کالا">
         <X className="h-5 w-5" />
       </Button>

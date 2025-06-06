@@ -99,9 +99,10 @@ export default function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent 
             className="w-52" 
-            side="right" // Correct for RTL when trigger is on the left
-            align="start" // Correct for RTL
+            side="right" 
+            align="start"
             sideOffset={5}
+            alignOffset={-16}
           >
             <DropdownMenuLabel className="font-normal px-2 py-2 text-right">
               <div className="flex flex-col space-y-1">
@@ -277,7 +278,7 @@ export default function Header() {
                   <span className="sr-only">باز/بسته کردن منو</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 flex flex-col bg-sidebar-background text-sidebar-foreground">
+              <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 flex flex-col bg-sidebar text-sidebar-foreground">
                 <div className="p-4 border-b border-sidebar-border">
                    <Link href="/" className="text-xl font-headline font-bold text-sidebar-primary hover:text-sidebar-primary/90 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                     فروشگاه آمیتیست
