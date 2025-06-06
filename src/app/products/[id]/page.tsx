@@ -16,7 +16,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: { id:string } }) {
   const product = await fetchProductById(params.id);
   if (!product) {
     return {
@@ -52,8 +52,8 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
   return (
     <div className="container mx-auto py-8 animate-fade-in space-y-12">
       <Card className="overflow-hidden shadow-xl">
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="p-6 bg-card flex justify-center items-center aspect-square md:aspect-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+          <div className="p-4 md:p-6 bg-card flex justify-center items-center aspect-square md:aspect-auto">
             <Image
               src={product.image}
               alt={product.title}
@@ -63,9 +63,9 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
               data-ai-hint="product large"
             />
           </div>
-          <div className="p-8 flex flex-col">
+          <div className="p-4 md:p-8 flex flex-col">
             <CardHeader className="p-0">
-              <CardTitle className="text-3xl lg:text-4xl font-headline text-primary mb-2">{product.title}</CardTitle>
+              <CardTitle className="text-2xl sm:text-3xl lg:text-4xl font-headline text-primary mb-2">{product.title}</CardTitle>
               <CardDescription className="text-sm text-muted-foreground uppercase tracking-wider mb-4">{product.category}</CardDescription>
             </CardHeader>
             
@@ -82,7 +82,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                 <span className="text-muted-foreground text-sm">({product.rating.count} نظر)</span>
               </div>
 
-              <p className="text-3xl font-semibold text-accent">${product.price.toFixed(2)}</p>
+              <p className="text-2xl sm:text-3xl font-semibold text-accent">${product.price.toFixed(2)}</p>
               
               <Separator />
               
