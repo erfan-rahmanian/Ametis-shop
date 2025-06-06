@@ -61,6 +61,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
               height={500}
               className="object-contain max-h-[500px] rounded-lg"
               data-ai-hint="product large"
+              priority
             />
           </div>
           <div className="p-4 md:p-8 flex flex-col">

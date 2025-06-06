@@ -21,8 +21,7 @@ export default function RegisterPage() {
   const handleRegister = async (email: string, password?: string) => {
     setFormIsLoading(true);
     try {
-      // Simulate API call delay for demo
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Removed API call delay
       register(email, password); // Password not used in current useAuth hook
       toast({
         title: "ثبت‌نام موفقیت‌آمیز!",
