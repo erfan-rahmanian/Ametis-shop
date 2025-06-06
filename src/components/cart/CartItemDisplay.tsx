@@ -31,7 +31,7 @@ export default function CartItemDisplay({ item }: CartItemDisplayProps) {
           data-ai-hint="product photo"
         />
       </Link>
-      <div className="flex-grow">
+      <div className="flex-grow min-w-0"> {/* Added min-w-0 here */}
         <Link href={`/products/${item.id}`}>
           <h3 className="font-semibold text-foreground hover:text-primary transition-colors">{item.title}</h3>
         </Link>
@@ -46,14 +46,14 @@ export default function CartItemDisplay({ item }: CartItemDisplayProps) {
           value={item.quantity}
           onChange={(e) => handleQuantityChange(parseInt(e.target.value, 10))}
           min="1"
-          className="w-16 text-center h-10"
+          className="w-14 text-center h-10" /* Changed w-16 to w-14 */
           aria-label="تعداد کالا"
         />
         <Button variant="outline" size="icon" onClick={() => handleQuantityChange(item.quantity + 1)} aria-label="افزایش تعداد">
           <Plus className="h-4 w-4" />
         </Button>
       </div>
-      <p className="font-semibold w-20 text-left text-primary">${(item.price * item.quantity).toFixed(2)}</p> {/* Changed text-right to text-left */}
+      <p className="font-semibold w-24 text-left text-primary">${(item.price * item.quantity).toFixed(2)}</p> {/* Changed w-20 to w-24 */}
       <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive" aria-label="حذف کالا">
         <X className="h-5 w-5" />
       </Button>

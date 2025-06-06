@@ -38,7 +38,7 @@ export default function CartView() {
   return (
     <div className="space-y-8 animate-fade-in">
       <h1 className="text-4xl font-headline font-bold text-primary">سبد خرید شما</h1>
-      <div className="bg-card p-6 rounded-lg shadow-lg">
+      <div className="bg-card p-4 sm:p-6 rounded-lg shadow-lg"> {/* Changed p-6 to p-4 sm:p-6 */}
         {cart.map((item) => (
           <CartItemDisplay key={item.id} item={item} />
         ))}
