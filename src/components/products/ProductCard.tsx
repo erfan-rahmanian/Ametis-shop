@@ -41,8 +41,9 @@ export default function ProductCard({ product }: ProductCardProps) {
         <p className="text-xl font-semibold text-card-foreground">${product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4 flex justify-center">
-        <AddToCartButton product={product} size="sm" />
+        <AddToCartButton product={product} size="sm" className="text-xs" />
       </CardFooter>
     </Card>
   );
 }
+
