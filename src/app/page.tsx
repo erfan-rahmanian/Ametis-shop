@@ -24,7 +24,7 @@ export default async function HomePage() {
               />
             </div>
             <div className="md:order-1 text-center md:text-right pt-4 md:pt-0">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline font-bold text-primary mb-8 animate-fade-in py-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline font-bold text-primary mb-8 animate-fade-in py-6">
                 به فروشگاه آمیتیست خوش آمدید
               </h1>
               <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto md:mx-0 md:ms-auto animate-fade-in px-2" style={{animationDelay: '0.3s'}}>
