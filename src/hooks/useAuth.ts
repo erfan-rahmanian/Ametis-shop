@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Reflects initial hydration state
 
   useEffect(() => {
     // Load user from localStorage on initial mount
@@ -30,42 +30,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error("خطا در بارگذاری کاربر از localStorage:", error);
-      localStorage.removeItem(AUTH_KEY);
+      localStorage.removeItem(AUTH_KEY); // Clear potentially corrupted data
     }
-    setIsLoading(false);
+    setIsLoading(false); // Set loading to false ONLY after attempting to load from storage
   }, []);
 
   const login = useCallback((email: string, _password?: string) => {
     const newUser = { email };
     localStorage.setItem(AUTH_KEY, JSON.stringify(newUser));
     setUser(newUser);
-    setIsLoading(false); 
   }, []);
 
   const register = useCallback((email: string, _password?: string) => {
     const newUser = { email };
     localStorage.setItem(AUTH_KEY, JSON.stringify(newUser));
     setUser(newUser);
-    setIsLoading(false); 
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem(AUTH_KEY);
     setUser(null);
-    setIsLoading(false); 
   }, []);
 
+  const authContextValue = {
+    user,
+    login,
+    register,
+    logout,
+    isAuthenticated: !!user,
+    isLoading,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        register,
-        logout,
-        isAuthenticated: !!user,
-        isLoading,
-      }}
-    >
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );
