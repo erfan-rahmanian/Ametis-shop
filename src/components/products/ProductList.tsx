@@ -54,10 +54,10 @@ export default function ProductList({ initialProducts }: ProductListProps) {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {Array.from({ length: 8 }).map((_, index) => (
           <div key={index} className="flex flex-col space-y-3">
-            <Skeleton className="h-[180px] sm:h-[200px] w-full rounded-xl" />
+            <Skeleton className="h-[120px] sm:h-[150px] w-full rounded-xl" />
             <div className="space-y-2 p-2">
               <Skeleton className="h-4 w-3/4" />
               <Skeleton className="h-4 w-1/2" />
@@ -74,11 +74,10 @@ export default function ProductList({ initialProducts }: ProductListProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       {sortedProducts.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );
 }
-
